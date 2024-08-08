@@ -37,15 +37,12 @@ class MorseViewModel @Inject constructor() : ViewModel() {
         pattern.add(0)
 
         message.uppercase(Locale.getDefault()).forEachIndexed { index, char ->
-            println("❤️：$char")
             if (char == ' ') {
                 // 空白の場合、WordGapDuration を追加し、次の LetterGapDuration を追加しない
                 pattern.add(WordGapDuration)
             } else {
                 val morseCode = MorseCodeMap[char]
-                println("❤:$morseCode")
                 morseCode?.forEachIndexed { i, symbol ->
-                    println("❤️symbol：$symbol")
                     when (symbol) {
                         '・' -> {
                             pattern.add(DotDuration)
@@ -68,11 +65,9 @@ class MorseViewModel @Inject constructor() : ViewModel() {
                     pattern.add(LetterGapDuration)
                 }
             }
-            println("$pattern")
         }
 
         val patternArray = pattern.toLongArray()
-        println("Array:${patternArray}")
 
         vibrator?.vibrate(VibrationEffect.createWaveform(patternArray, -1))
     }
