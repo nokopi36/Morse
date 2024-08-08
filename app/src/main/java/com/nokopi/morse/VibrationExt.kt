@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+// バイブレーション機能の例
 @Composable
 fun VibrationEx(modifier: Modifier = Modifier) {
 
