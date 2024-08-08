@@ -15,8 +15,6 @@ fun MainScreenContent(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-//        VibrationEx()
-//        AccessibleForm()
         MorseScreenContent()
     }
 }

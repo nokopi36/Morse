@@ -16,7 +16,7 @@ internal fun MorseTextInput(
     onButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val (message, setMessage) = remember { mutableStateOf("sos") }
+    val (message, setMessage) = remember { mutableStateOf("") }
 
     Column(
         modifier = modifier,

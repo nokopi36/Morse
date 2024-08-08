@@ -7,7 +7,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.nokopi.morse.MorseViewModel
 import com.nokopi.morse.feature.morse.component.MorseTextInput
 
 @Composable

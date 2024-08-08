@@ -1,4 +1,4 @@
-package com.nokopi.morse
+package com.nokopi.morse.feature.morse
 
 import android.content.Context
 import android.os.VibrationEffect
@@ -9,12 +9,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale
 import javax.inject.Inject
 
-
-private const val DotDuration = 100L // 点の振動時間（ミリ秒）
-private const val DashDuration = 200L // 線の振動時間（ミリ秒）
-private const val GapDuration = 200L // 点と線の間の停止時間（ミリ秒）
-private const val LetterGapDuration = 300L // 文字間の停止時間（ミリ秒）
-private const val WordGapDuration = 1400L // 単語間の停止時間（ミリ秒）
+private const val DotDuration = 80L // 点の振動時間（ミリ秒）
+private const val DashDuration = DotDuration * 3 // 線の振動時間（ミリ秒）点の3倍の長さ
+private const val GapDuration = DotDuration // 点と線の間の停止時間（ミリ秒）点と同じ長さ
+private const val LetterGapDuration = DotDuration * 3 // 文字間の停止時間（ミリ秒）点の3倍の長さ
+private const val WordGapDuration = DotDuration * 7 // 単語間の停止時間（ミリ秒）点の7倍の長さ
 
 // モールス信号のアルファベット対応表
 private val MorseCodeMap = mapOf(
@@ -23,13 +22,11 @@ private val MorseCodeMap = mapOf(
     'K' to "-・-", 'L' to "・-・・", 'M' to "--", 'N' to "-・", 'O' to "---",
     'P' to "・--・", 'Q' to "--・-", 'R' to "・-・", 'S' to "・・・", 'T' to "-",
     'U' to "・・-", 'V' to "・・・-", 'W' to "・--", 'X' to "-・・-", 'Y' to "-・--",
-    'Z' to "--・・"
+    'Z' to "--・・", " " to " "
 )
 
 @HiltViewModel
-class MorseViewModel @Inject constructor(
-
-) : ViewModel() {
+class MorseViewModel @Inject constructor() : ViewModel() {
 
     fun vibrateMorseCode(
         message: String,
@@ -39,34 +36,37 @@ class MorseViewModel @Inject constructor(
         val pattern = mutableListOf<Long>()
         pattern.add(0)
 
-        message.uppercase(Locale.getDefault()).forEach { char ->
+        message.uppercase(Locale.getDefault()).forEachIndexed { index, char ->
+            println("❤️：$char")
             if (char == ' ') {
+                // 空白の場合、WordGapDuration を追加し、次の LetterGapDuration を追加しない
                 pattern.add(WordGapDuration)
             } else {
                 val morseCode = MorseCodeMap[char]
                 println("❤:$morseCode")
-                morseCode?.forEachIndexed { index, symbol ->
+                morseCode?.forEachIndexed { i, symbol ->
+                    println("❤️symbol：$symbol")
                     when (symbol) {
                         '・' -> {
                             pattern.add(DotDuration)
-                            if (index != morseCode.length - 1) {
+                            if (i != morseCode.length - 1) {
                                 pattern.add(GapDuration)
                             }
                         }
 
                         '-' -> {
                             pattern.add(DashDuration)
-                            if (index != morseCode.length - 1) {
+                            if (i != morseCode.length - 1) {
                                 pattern.add(GapDuration)
                             }
                         }
-
-                        ' ' -> {
-                            pattern.add(LetterGapDuration)
-                        }
                     }
                 }
-                pattern.add(LetterGapDuration)
+
+                // 最後の文字でなければ LetterGapDuration を追加
+                if (index != message.length - 1 && message[index + 1] != ' ') {
+                    pattern.add(LetterGapDuration)
+                }
             }
             println("$pattern")
         }
