@@ -22,7 +22,7 @@ private val MorseCodeMap = mapOf(
     'K' to "-・-", 'L' to "・-・・", 'M' to "--", 'N' to "-・", 'O' to "---",
     'P' to "・--・", 'Q' to "--・-", 'R' to "・-・", 'S' to "・・・", 'T' to "-",
     'U' to "・・-", 'V' to "・・・-", 'W' to "・--", 'X' to "-・・-", 'Y' to "-・--",
-    'Z' to "--・・", " " to " "
+    'Z' to "--・・",
 )
 
 @HiltViewModel
